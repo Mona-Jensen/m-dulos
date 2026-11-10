@@ -22,4 +22,6 @@ Propuesta formativa; no se acredita impartición en esta muestra.
 
 La muestra original incluye antecedentes de una tercera persona. Sus documentos no se publican. Esta ficha resume el trabajo de diseño educativo y no afirma resultados de participantes.
 
+[Consultar programa propuesto](PROGRAMA.md)
+
 [Volver al portafolio](../../README.md)

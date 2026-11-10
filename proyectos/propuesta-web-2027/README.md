@@ -22,6 +22,8 @@ Propuesta conceptual; no corresponde a un sitio implementado.
 
 Los costos son parte del documento de trabajo y no se presentan como cotizaciones verificadas. La ficha describe el trabajo de planificación, sin acreditar implementación o resultados de campaña.
 
+[Consultar resumen técnico](RESUMEN_TECNICO.md)
+
 [Volver al portafolio](../../README.md)
 
 Los documentos originales se conservan fuera del repositorio público; esta muestra contiene únicamente la ficha del trabajo de planificación.
