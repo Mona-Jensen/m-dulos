@@ -14,7 +14,7 @@ No se publican el código de AETHERIA, el currículum de una tercera persona inc
 
 ## Comprobaciones y límites
 
-SIRM: 23 pruebas Node.js y 4 Python. AETHERIA: 19 pruebas del motor y 37 de plataforma; estos resultados no hacen público su código. Las pruebas no acreditan validación geotécnica, pedagógica ni funcionamiento de servicios externos. No se ejecutaron binarios Windows ni se instalaron tareas programadas.
+SIRM: 23 pruebas Node.js y 4 Python. Las pruebas no acreditan validación geotécnica, pedagógica ni funcionamiento de servicios externos. No se ejecutaron binarios Windows ni se instalaron tareas programadas.
 
 Los builds de React/TypeScript, los flujos visuales completos y el funcionamiento de integraciones externas siguen pendientes. No se asignan métricas de rendimiento sin medición. Las configuraciones tsconfig con comentarios se tratan como JSONC, no como JSON estricto.
 
@@ -29,3 +29,7 @@ La revisión de publicación identificó una clave NASA FIRMS en el código clie
 ## Selección pública restringida
 
 No se publica ningún código de AETHERIA o de la maqueta AetherIA de consultoría. La propuesta web 2027 tiene solo ficha. Los documentos Office/PDF de seguridad minera se sustituyen por texto educativo; se retiran referencias audiovisuales susceptibles de identificar personas. Los originales quedan fuera del repositorio público.
+
+## AETHERIA como proyecto principal
+
+La ficha pública describe solo identidad, propósito y estado. Se omiten detalles de pruebas, código, algoritmos, arquitectura y resultados reservados. Cualquier divulgación adicional requiere autorización expresa de la autora y permisos técnicos en el sistema privado elegido. El repositorio público no almacena esos materiales.

@@ -21,14 +21,6 @@
       "aprobadas": 23,
       "fallidas": 0
     },
-    "AETHERIA_motor": {
-      "aprobadas": 19,
-      "fallidas": 0
-    },
-    "AETHERIA_plataforma": {
-      "aprobadas": 37,
-      "fallidas": 0
-    },
     "SIRM_python": {
       "aprobadas": 4,
       "fallidas": 0
@@ -49,5 +41,6 @@
     "CV de tercera persona y ejemplos identificables del taller ADP",
     "Ejecutable y archivos masivos del Atlas",
     "Borrador jurídico pendiente de verificación"
-  ]
+  ],
+  "privacidad_aetheria": "Solo ficha pública de propósito general. Código, arquitectura, datos de trabajo y resultados no publicados reservados; acceso sujeto a autorización expresa de la autora."
 }

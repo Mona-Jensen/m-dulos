@@ -8,6 +8,14 @@ Este portafolio reúne proyectos de creación propia y trabajos de formación. E
 
 [LinkedIn](https://www.linkedin.com/in/gianina-jensen-guzm%C3%A1n/) · [Todos mis repositorios](https://github.com/Mona-Jensen?tab=repositories)
 
+## Proyecto principal — AETHERIA | CONTINUUM
+
+Mi proyecto principal de investigación computacional sobre causalidad y estructura del espacio-tiempo. **En desarrollo y con acceso reservado.**
+
+[Presentación pública y solicitud de información](proyectos/aetheria-continuum/)
+
+El código, los algoritmos y los resultados no publicados se mantienen fuera de este portafolio. Cualquier acceso adicional requiere mi autorización previa y expresa.
+
 ## Selección de trabajos
 
 | Proyecto | Qué muestra de mi trabajo | Acceso |
