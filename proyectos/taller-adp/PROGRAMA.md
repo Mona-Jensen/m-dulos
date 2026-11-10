@@ -23,6 +23,6 @@ Análisis de un perfil de cargo, construcción de una matriz de evidencia, revis
 
 ## Reserva de antecedentes
 
-La muestra recibida contenía un CV real y ejemplos identificables. No se incluyen en esta versión pública. Los requisitos normativos y etapas del concurso deben comprobarse en las bases correspondientes antes de impartir el taller.
+La muestra recibida contenía un CV real y ejemplos identificables. No se incluyen en esta versión pública. 
 
 [Volver a la ficha](README.md)
