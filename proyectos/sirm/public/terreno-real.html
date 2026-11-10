@@ -1,0 +1,322 @@
+
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SIRM · Planta Matta</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#102031;color:#ecf4ff;font:14px Segoe UI,Arial}
+header{padding:15px 20px;border-bottom:1px solid #4b6479}
+a{color:#9be6ff}
+main{display:grid;grid-template-columns:1fr 340px;min-height:calc(100vh - 58px)}
+#scene{width:100%;height:100%;min-height:560px;touch-action:none;background:#183147}
+aside{padding:18px;background:#14283a}
+button{background:#0981a5;color:#fff;padding:13px;border:0;border-radius:8px;cursor:pointer}
+button:disabled{opacity:.5}
+#map{width:100%;border:1px solid #46697c}
+#status{white-space:pre-wrap;line-height:1.5}
+p{line-height:1.5}
+small{color:#a6baca}
+@media(max-width:850px){
+ main{display:block}
+ #scene{height:55vh;min-height:370px}
+}
+</style>
+</head>
+<body>
+<header>
+<b>SIRM · Planta Matta · terreno real preliminar</b>
+· <a href="/">Volver al simulador</a>
+</header>
+<main>
+<canvas id="scene"></canvas>
+<aside>
+<button id="start">Obtener terreno real</button>
+<p id="status">Listo para consultar el catastro y las elevaciones.</p>
+<h3>Polígono oficial y drenaje exploratorio</h3>
+<canvas id="map" width="500" height="500"></canvas>
+<p id="info"></p>
+<p><small>
+Contorno naranja: SERNAGEOMIN, resaltado solo para visibilidad.
+Trazos azules: drenaje D8 preliminar en una ventana de 10 km.
+Los trazos no equivalen a cauces comprobados.
+</small></p>
+<p>
+<b>No se permite simular la rotura del muro.</b>
+Faltan geometría de ingeniería, propiedades del material y validación.
+Elevaciones Mapzen Terrarium, no Copernicus ni levantamiento topográfico.
+</p>
+</aside>
+</main>
+
+<script type="module">
+import {Scene3D} from '/js/renderer/webgl.mjs';
+import {CanvasFallback} from '/js/renderer/fallback.mjs';
+
+const $=s=>document.getElementById(s);
+const RAD=Math.PI/180;
+const N=96,z=12;
+const lat=-27.402526424264657;
+const lon=-70.25336755813446;
+
+const south=lat-5000/111132;
+const north=lat+5000/111132;
+const west=lon-5000/(111320*Math.cos(lat*RAD));
+const east=lon+5000/(111320*Math.cos(lat*RAD));
+
+const xyz=(lo,la)=>[
+  4096*(lo+180)/360,
+  4096*(1-Math.asinh(Math.tan(la*RAD))/Math.PI)/2
+];
+
+let scene;
+try{
+  scene=new Scene3D($('scene'));
+}catch(e){
+  scene=new CanvasFallback($('scene'));
+}
+
+let last=0;
+
+requestAnimationFrame(function loop(t){
+  scene.render(last?(t-last)/1000:0);
+  last=t;
+  requestAnimationFrame(loop);
+});
+
+async function tile(x,y){
+  const res=await fetch(
+    '/api/terrain/tile/'+z+'/'+x+'/'+y+'.png'
+  );
+
+  if(!res.ok){
+    throw Error(
+      'No se pudo obtener mosaico '+x+'/'+y+
+      ' (HTTP '+res.status+')'
+    );
+  }
+
+  const bm=await createImageBitmap(await res.blob());
+  const cv=document.createElement('canvas');
+  cv.width=cv.height=256;
+
+  const ctx=cv.getContext('2d',{willReadFrequently:true});
+  ctx.drawImage(bm,0,0);
+  bm.close();
+
+  const raw=ctx.getImageData(0,0,256,256).data;
+  const out=new Float32Array(65536);
+
+  for(let i=0;i<out.length;i++){
+    const j=4*i;
+
+    if(raw[j+3]!==255){
+      throw Error('Píxel de elevación faltante');
+    }
+
+    out[i]=raw[j]*256+raw[j+1]+raw[j+2]/256-32768;
+
+    if(out[i]<-1000||out[i]>9000){
+      throw Error('Elevación inválida');
+    }
+  }
+
+  return out;
+}
+
+
+function sampleElevation(lo,la,tiles) {
+  const [tx,ty]=xyz(lo,la);
+  const xx=tx*256-.5, yy=ty*256-.5;
+  const x=Math.floor(xx),y=Math.floor(yy);
+  const fx=xx-x,fy=yy-y;
+
+  function val(i,j){
+    const col=Math.floor(i/256);
+    const row=Math.floor(j/256);
+    const t=tiles.get(col+'/'+row);
+
+    if(!t)throw Error('Falta mosaico para interpolar terreno');
+    return t[(j-row*256)*256+i-col*256];
+  }
+
+  return (val(x,y)*(1-fx)+val(x+1,y)*fx)*(1-fy)
+       + (val(x,y+1)*(1-fx)+val(x+1,y+1)*fx)*fy;
+}
+
+function flow(h){
+  const to=new Int32Array(N*N).fill(-1);
+  const sum=new Float32Array(N*N).fill(1);
+  const ds=[
+    [-1,0],[1,0],[0,-1],[0,1],
+    [-1,-1],[-1,1],[1,-1],[1,1]
+  ];
+
+  for(let r=1;r<N-1;r++){
+    for(let c=1;c<N-1;c++){
+      const i=r*N+c;
+      let best=0;
+
+      for(const [dr,dc] of ds){
+        const j=(r+dr)*N+c+dc;
+        const s=(h[i]-h[j])/(dr&&dc?Math.SQRT2:1);
+
+        if(s>best){
+          best=s;
+          to[i]=j;
+        }
+      }
+    }
+  }
+
+  const order=Array.from(
+    {length:N*N},(_,i)=>i
+  ).sort((a,b)=>h[b]-h[a]);
+
+  for(const i of order){
+    if(to[i]>=0)sum[to[i]]+=sum[i];
+  }
+
+  return {to,sum};
+}
+
+function draw(f,drain){
+  const cx=$('map').getContext('2d');
+  const W=500;
+
+  cx.clearRect(0,0,W,W);
+  cx.lineWidth=1;
+  cx.strokeStyle='#56b5df';
+
+  for(let r=1;r<N-1;r++){
+    for(let c=1;c<N-1;c++){
+      const i=r*N+c;
+      const j=drain.to[i];
+
+      if(j<0||drain.sum[i]<35)continue;
+
+      cx.beginPath();
+      cx.moveTo((c+.5)*W/N,(r+.5)*W/N);
+      cx.lineTo(
+        (j%N+.5)*W/N,
+        (Math.floor(j/N)+.5)*W/N
+      );
+      cx.stroke();
+    }
+  }
+
+  cx.strokeStyle='#ffac61';
+  cx.lineWidth=3;
+
+  const rings=f.geometry.type==='Polygon'
+    ?f.geometry.coordinates
+    :f.geometry.coordinates.flat(1);
+
+  for(const ring of rings){
+    cx.beginPath();
+
+    ring.forEach(([x,y],i)=>{
+      const px=(x-west)/(east-west)*W;
+      const py=(north-y)/(north-south)*W;
+
+      if(i){
+        cx.lineTo(px,py);
+      }else{
+        cx.moveTo(px,py);
+      }
+    });
+
+    cx.closePath();
+    cx.stroke();
+  }
+}
+
+$('start').onclick=async()=>{
+  $('start').disabled=true;
+
+  const say=t=>$('status').textContent=t;
+
+  try{
+    say('Verificando polígono oficial...');
+
+    const r=await fetch('/api/catalog/geojson');
+
+    if(!r.ok)throw Error('Sin conexión al catastro');
+
+    const catalog=await r.json();
+
+    if(catalog.sirm?.kind!=='poligonos'){
+      throw Error(
+        'Primero sincroniza polígonos desde Catastro oficial'
+      );
+    }
+
+    const f=catalog.features.find(
+      v=>v.properties?.ID==='0009-3N'
+    );
+
+    if(!f||!['Polygon','MultiPolygon'].includes(f.geometry?.type)){
+      throw Error('No existe el polígono oficial 0009-3N');
+    }
+
+    const [ax,ay]=xyz(west,north),[bx,by]=xyz(east,south),positions=[];
+  const x0=Math.floor((ax*256-.5)/256),x1=Math.floor((bx*256+.5)/256);
+  const y0=Math.floor((ay*256-.5)/256),y1=Math.floor((by*256+.5)/256);
+  for(let y=y0;y<=y1;y++)
+    for(let x=x0;x<=x1;x++)positions.push([x,y]);
+  if(positions.length>24)throw Error('Demasiados mosaicos');
+  const tiles=new Map();
+
+    for(let i=0;i<positions.length;i++){
+      const [x,y]=positions[i];
+
+      say(
+        'Descargando elevaciones reales: '+
+        (i+1)+'/'+positions.length
+      );
+
+      tiles.set(x+'/'+y,await tile(x,y));
+    }
+
+    const h=[];
+  for(let r=0;r<N;r++)
+    for(let c=0;c<N;c++){
+      const la=north-r/(N-1)*(north-south);
+      const lo=west+c/(N-1)*(east-west);
+      h.push(sampleElevation(lo,la,tiles));
+    }
+  const min=Math.min(...h);
+    const max=Math.max(...h);
+
+    if(max-min<1){
+      throw Error('DEM sin variación de relieve');
+    }
+
+    scene.setTerrain({rows:N,cols:N,dx:10000/(N-1),heights:h,realTerrain:true},[],{geometry:f.geometry,bounds:{north,south,east,west}});
+
+    draw(f,flow(h));
+
+    $('info').textContent=
+      'Planta Matta · 0009-3N | Elevación regional '+
+      min.toFixed(1)+' a '+max.toFixed(1)+
+      ' m | '+positions.length+
+      ' mosaicos. Sin simulación física.';
+
+    say('Terreno real a escala 1:1. Poligono oficial superpuesto al relieve 3D.');
+
+  }catch(e){
+    console.error(e);
+
+    say(
+      'NO SE CARGÓ TERRENO: '+e.message+
+      '\nNo se crearon datos ficticios.'
+    );
+  }finally{
+    $('start').disabled=false;
+  }
+};
+</script>
+</body>
+</html>

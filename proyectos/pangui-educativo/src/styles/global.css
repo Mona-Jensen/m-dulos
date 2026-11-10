@@ -1,0 +1,66 @@
+/* ESTILOS DE LA PANTALLA DE INICIO (Inicio con Paisaje) */
+.home-page {
+  position: relative; width: 100vw; height: 100vh;
+  background-image: url('/assets/img/paisajes/fondo_inicio.png'); /* Ruta verificada */
+  background-size: cover; background-position: center;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+
+/* La Huella Dorada (Avatar Central) */
+.central-paw-button {
+  background: #ff9800; width: 120px; height: 120px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; box-shadow: 0 0 20px rgba(255, 152, 0, 0.6);
+  border: 4px solid white; margin: 20px 0;
+}
+
+.central-paw-button img {
+  width: 70px; filter: brightness(0) invert(1); /* Pone la huella blanca */
+}
+
+/* DISEÑO DEL CUENTO (Story Card) */
+.story-container {
+  display: flex; justify-content: center; align-items: center; 
+  height: 100vh; background-color: #f5f0e1;
+}
+
+.story-card {
+  width: 85%; max-width: 1000px; height: 75%; background: white;
+  border-radius: 20px; border: 3px solid #ff9800; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+.story-split-view { display: flex; flex: 1; }
+
+.story-image-pane { flex: 1; background: #eee; border-right: 1px solid #ddd; }
+.story-img { width: 100%; height: 100%; object-fit: cover; }
+
+.story-text-pane {
+  flex: 1; padding: 40px; display: flex; align-items: center;
+  background-image: radial-gradient(#ccc 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.story-text-content { font-size: 1.5rem; line-height: 1.6; color: #333; }
+
+.story-footer-nav {
+  height: 100px; display: flex; align-items: center; justify-content: center;
+  position: relative; border-top: 2px solid #ff9800; background: #fff8e1;
+}
+
+.nav-buttons-group { display: flex; align-items: center; gap: 20px; }
+
+.nav-btn-story {
+  padding: 10px 25px; border-radius: 15px; border: none; background: #ccc;
+  font-weight: bold; cursor: pointer;
+}
+
+.orange-btn { background: #ff9800; color: white; }
+
+.pangui-navigator-avatar {
+  position: absolute; right: 30px; bottom: 10px;
+}
+
+.mini-avatar-img {
+  width: 100px; height: auto; transform: scaleX(-1); /* Pangui mirando al centro */
+}

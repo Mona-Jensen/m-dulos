@@ -1,0 +1,16 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Parque Nacional Villarrica",
+        "type": "Parque Nacional"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-71.95, -39.35], [-71.80, -39.35], [-71.75, -39.45], [-71.85, -39.55], [-71.98, -39.52], [-71.95, -39.35]]]
+      }
+    }
+  ]
+}

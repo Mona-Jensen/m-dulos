@@ -1,0 +1,142 @@
+[
+  {
+    "path": "proyectos/chile-volcanico/script.js",
+    "ok": true
+  },
+  {
+    "path": "proyectos/chile-volcanico/sw.js",
+    "ok": true
+  },
+  {
+    "path": "proyectos/volcanes-prototipo-inicial/script.js",
+    "ok": true
+  },
+  {
+    "path": "proyectos/visualizador-territorial/server.js",
+    "ok": true
+  },
+  {
+    "path": "proyectos/chile-volcanico/netlify/functions/getFirms.js",
+    "ok": true
+  },
+  {
+    "path": "proyectos/chile-volcanico/netlify/functions/getAlerts.js",
+    "ok": true
+  },
+  {
+    "path": "proyectos/chile-volcanico/netlify/functions/getGoes.js",
+    "ok": true
+  },
+  {
+    "path": "proyectos/visualizador-territorial/js/map.js",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/tools/terrain-proxy.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/tools/arcgis-client.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/tools/server.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/tools/catalog-store.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/tools/sync-relaves.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/tools/sirm-fuentes-nacionales.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/scratch/benchmarks/solver-benchmark.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/scratch/tests/catalog-api.test.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/scratch/tests/server.test.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/scratch/tests/solver.test.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/scratch/tests/arcgis.test.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/scratch/tests/geometry.test.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/main.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/sirm-centro-nacional.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/catalog.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/engine/replay.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/engine/scenarios.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/engine/risk.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/engine/terrain.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/engine/solver.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/renderer/math.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/renderer/geometry.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/renderer/fallback.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/sirm/public/js/renderer/webgl.mjs",
+    "ok": true
+  },
+  {
+    "path": "proyectos/aetheria-consultoria-web/js/dashboard.js",
+    "ok": true
+  },
+  {
+    "path": "proyectos/aetheria-consultoria-web/js/main.js",
+    "ok": true
+  },
+  {
+    "path": "proyectos/aetheria-consultoria-web/js/mapa-simple.js",
+    "ok": true
+  }
+]

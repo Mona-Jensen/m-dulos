@@ -1,0 +1,50 @@
+[
+  {
+    "id": "01",
+    "section": "Bienvenida",
+    "text": "Hola. Bienvenidas y bienvenidos a Aprendamos Seguridad Minera. Hoy conoceremos un riesgo que no siempre se ve: la estabilidad del terreno en las minas subterráneas.",
+    "visual": "Presentadora frente a entorno minero realista. Introducción del Módulo 1 y del Control 1."
+  },
+  {
+    "id": "02",
+    "section": "El riesgo",
+    "text": "Dentro de un túnel, algunas rocas del techo o de las paredes pueden fracturarse y desprenderse. Que todo parezca tranquilo no significa que el lugar sea seguro.",
+    "visual": "Vista fotorrealista de galería, textura de roca. Sin mostrar incidentes ni accidentes."
+  },
+  {
+    "id": "03",
+    "section": "Control crítico",
+    "text": "Por eso, SERNAGEOMIN destaca la acuñadura sistemática y la fortificación oportuna en labores subterráneas. Son medidas técnicas que deben ejecutar especialistas autorizados.",
+    "visual": "Lámina original del Control 1 sin alteraciones, y detalle de fortificación en una imagen aparte."
+  },
+  {
+    "id": "04",
+    "section": "Fortificación",
+    "text": "La fortificación utiliza elementos diseñados para sostener o estabilizar el terreno. Su instalación y revisión requieren conocimientos, equipos y procedimientos especializados.",
+    "visual": "Fortificación realista, sin instrucciones operativas ni demostraciones peligrosas."
+  },
+  {
+    "id": "05",
+    "section": "Ejemplo ciudadano",
+    "text": "Ahora imagina que, durante un paseo, encuentras la entrada de una mina cerrada. No hay personas a la vista. Parece segura, pero no puedes saberlo solo con mirar.",
+    "visual": "Acceso a galería minera con barrera de restricción, visto desde el exterior."
+  },
+  {
+    "id": "06",
+    "section": "Decisión segura",
+    "text": "La decisión correcta es mantenerte fuera y respetar los avisos. Si observas desprendimientos, aléjate y avisa al responsable del lugar o a las autoridades. Nunca intentes retirar rocas.",
+    "visual": "Presentadora indica visualmente mantenerse fuera de la zona, con barreras visibles."
+  },
+  {
+    "id": "07",
+    "section": "Pausa interactiva",
+    "text": "Te toca decidir. Frente a una mina cerrada, ¿qué harías?",
+    "visual": "Presentadora en plano medio; el reproductor pausa para la pregunta interactiva."
+  },
+  {
+    "id": "08",
+    "section": "Cierre posterior a respuesta",
+    "text": "Muy bien. Recuerda: un terreno que parece estable puede cambiar sin aviso. Reconocer una restricción y respetarla también es prevenir.",
+    "visual": "Presentadora cierra mirando a cámara; resumen y lámina intacta."
+  }
+]

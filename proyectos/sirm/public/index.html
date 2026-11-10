@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#08121f" />
+  <meta name="description" content="Laboratorio 3D de simulación ilustrativa de remociones en masa, inundaciones y escenarios de relaves." />
+  <title>SIRM v2 — Simulador de Remociones en Masa</title>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <header class="topbar">
+      <div class="brand"><div class="brand-mark" aria-hidden="true">≋</div><div><strong>SIRM<span class="brand-dot">.</span></strong><small>Laboratorio de riesgo territorial</small></div></div>
+      <div class="header-center"><span class="status-dot"></span><span>PROTOTIPO LOCAL · CONTEXTO DOCUMENTAL Y VISUAL</span></div>
+      <div class="header-actions"><span class="prototype-pill">PROTOTIPO · NO OPERACIONAL</span><button id="headerCatalog" class="catalog-header-btn">◈ Catastro oficial</button><button id="btnAbout" class="icon-btn" title="Metodología" aria-label="Ver metodología">ⓘ</button></div>
+    </header>
+    <div class="workspace">
+      <aside class="sidebar" id="sidebar">
+        <div class="side-top"><span class="eyebrow">CENTRO DE CONTROL</span><h2>Escenarios</h2><p>Construye, ejecuta y compara eventos sobre un modelo tridimensional.</p></div>
+        <div class="scenario-tabs" role="group" aria-label="Tipo de escenario">
+          <button class="scenario-btn active" data-scenario="flood"><span class="scenario-icon">≈</span><span><strong>Inundación</strong><small>Flujo superficial</small></span></button>
+          <button class="scenario-btn" data-scenario="slide"><span class="scenario-icon">◢</span><span><strong>Remoción en masa</strong><small>Flujo de detritos</small></span></button>
+          <button class="scenario-btn" data-scenario="tailings"><span class="scenario-icon">▰</span><span><strong>Relaves</strong><small>Liberación hipotética</small></span></button>
+        </div>
+        <div class="separator"></div>
+        <div class="parameter-heading"><h3>Parámetros</h3><span>EDITABLES</span></div>
+        <label class="range-label" for="rainfall"><span>Precipitación</span><strong id="rainfallValue">115 mm/h</strong></label>
+        <input id="rainfall" type="range" min="0" max="300" step="5" value="115" />
+        <label class="range-label" for="release"><span>Caudal de aporte</span><strong id="releaseValue">450 m³/s</strong></label>
+        <input id="release" type="range" min="0" max="1000" step="10" value="450" />
+        <label class="range-label" for="duration"><span>Duración del aporte</span><strong id="durationValue">360 s</strong></label>
+        <input id="duration" type="range" min="60" max="900" step="30" value="360" />
+        <div class="separator"></div>
+        <div class="input-box"><div class="input-icon">⌁</div><div><strong>Modelo de terreno</strong><span id="terrainSource">Cuenca sintética de demostración</span></div></div>
+        <label class="upload-control" for="terrainFile">↑ Importar terreno JSON o GeoTIFF<input id="terrainFile" type="file" accept=".json,.geojson,.tif,.tiff,application/json,image/tiff" hidden /></label>
+        <p class="source-hint">Para GeoTIFF de Copernicus, utiliza primero el conversor incluido en <code>tools/</code>. El archivo se usa como contexto visual y cartográfico, no como predicción geotécnica.</p>
+        <button id="openCatalog" class="catalog-sidebar-btn">◈ Explorar relaves oficiales</button>
+        <button id="runButton" class="run-btn"><span>▶</span> Ejecutar escenario demostrativo</button>
+        <p class="small-note">Prototipo físico simplificado. No apto para evacuaciones ni decisiones de seguridad. La información real es geográfica y documental; la simulación sigue siendo ilustrativa.</p>
+        <div class="input-box"><div class="input-icon">⚠</div><div><strong>Alcance real</strong><span>Terreno sintético o importado con advertencia; no constituye predicción geotécnica ni análisis operacional.</span></div></div>
+      </aside>
+      <main class="main">
+        <div id="stars" class="stars" aria-hidden="true"></div>
+        <canvas id="scene" aria-label="Visor geográfico tridimensional" tabindex="0"></canvas>
+        <div class="scene-grain" aria-hidden="true"></div>
+        <div class="scene-top"><div class="location-pill"><span class="live-marker"></span><span id="modeLabel">VISTA GLOBAL · PLANETA TIERRA</span></div><div class="scene-counter" id="sceneCounter">01 / 03</div></div>
+        <div id="intro" class="intro"><span class="eyebrow cyan">GEOCIENCIA · VISUALIZACIÓN · ESCENARIOS</span><h1>Comprende el terreno.<br/><em>Anticipa escenarios.</em></h1><p>Del planeta a la cuenca. Explora cómo puede desplazarse el agua y el material sobre un relieve tridimensional.</p><div class="intro-actions"><button id="enterButton" class="primary-btn">Explorar cuenca piloto <span>↗</span></button><button id="introCatalog" class="secondary-btn">Catastro real ↗</button><span class="scroll-note">↻ Arrastra para girar la Tierra</span></div></div>
+        <div id="terrainInfo" class="terrain-info hidden"><span class="eyebrow cyan">ÁREA DE ESTUDIO</span><h2 id="terrainTitle">Cuenca piloto · escenario sintético</h2><p id="terrainInfoText">Geometría sintética · no corresponde a datos topográficos medidos.</p></div>
+        <div id="legend" class="legend hidden"><div class="legend-title">CAPAS DE EXPOSICIÓN</div><div><i style="background:#52bedd"></i> Material en movimiento</div><div><i style="background:#ccd8dd"></i> Viviendas sin umbral superado</div><div><i style="background:#e9b16c"></i> Exposición potencial</div><div><i style="background:#e0716b"></i> Afectación severa ilustrativa</div></div>
+        <div id="earthFooter" class="earth-footer"><span>● CONTEXTO GEOGRÁFICO LOCAL · NO ES PREDICCIÓN</span><span>GLOBO INTERACTIVO EN TIEMPO REAL</span></div>
+        <div id="hud" class="hud hidden"><div><small>ÁREA CUBIERTA (&gt; 0,1 m)</small><strong id="wetArea">0,0 <span>ha</span></strong></div><div><small>PROFUNDIDAD MÁXIMA</small><strong id="maxDepth">0,00 <span>m</span></strong></div><div><small>VIVIENDAS EXPUESTAS*</small><strong id="houses">0 <span>/ 0</span></strong></div></div>
+        <div id="timeline" class="timeline hidden"><div class="timeline-header"><div><span class="eyebrow">REPRODUCCIÓN DE ESCENARIO</span><strong id="scenarioTitle">Inundación repentina</strong></div><div class="time-readout"><span id="playTime">00:00</span> <span class="muted">/ 03:00</span></div></div><input id="seek" type="range" min="0" max="180" step=".1" value="0" aria-label="Posición de la animación"/><div class="timeline-actions"><button id="togglePlay" class="small-action primary-action">▶ Reproducir</button><button id="restart" class="small-action">↺ Reiniciar</button><button id="exportData" class="small-action">↓ Resultados JSON</button><div class="timeline-spacer"></div><button id="recordCinematic" class="small-action">◉ Visualización realista 30 s</button><button id="recordButton" class="small-action record-action">● Grabar video 03:00</button><button id="returnEarth" class="small-action">◎ Planeta</button></div><div class="video-note" id="recordStatus">* Daños en viviendas representados mediante umbrales ilustrativos. No sustituyen cálculo estructural ni validación geotécnica.</div></div>
+        <section id="catalogView" class="catalog hidden" aria-label="Catastro geográfico de relaves">
+          <div class="catalog-top">
+            <div><span class="eyebrow cyan">SERNAGEOMIN · FUENTES GEOGRÁFICAS</span><h2>Catastro territorial de relaves</h2><p id="catalogStatus">Consultando datos almacenados… El catálogo es contexto geográfico y documental, no una predicción de riesgo.</p></div>
+            <button id="closeCatalog" class="small-action" aria-label="Cerrar catastro">✕ Volver al simulador</button>
+          </div>
+          <div class="catalog-toolbar">
+            <div class="catalog-metric"><strong id="catalogCount">—</strong><span>instalaciones</span></div>
+            <label>Región <select id="regionFilter"><option value="">Todas las regiones</option></select></label>
+            <label>Buscar <input id="catalogSearch" placeholder="ID, faena, comuna…" autocomplete="off" /></label>
+            <button id="fitCatalog" class="small-action">⊡ Centrar mapa</button>
+            <button id="syncCatalog" class="small-action primary-action">↻ Sincronizar polígonos</button>
+          </div>
+          <div class="catalog-body">
+            <div class="catalog-map"><canvas id="catalogCanvas" aria-label="Mapa interactivo de ubicación de depósitos WGS84"></canvas><div class="catalog-map-footer"><span id="catalogMode">CARGANDO</span><span id="visibleCount">— entidades</span><span>Desplazar: arrastrar · Zoom: rueda · Seleccionar: clic</span></div></div>
+            <aside class="catalog-detail"><span class="eyebrow">FICHA DE INSTALACIÓN</span><h3 id="selectedLabel">Selecciona un depósito</h3><p id="depositIntro">Haz clic sobre un elemento del mapa. La capa aporta contexto territorial, no un diagnóstico de estabilidad ni riesgo operativo.</p><dl id="depositFacts"></dl><p class="catalog-warning">Los contornos son cartografía 2D. Ninguna capa aporta por sí sola la geometría del muro, su estabilidad o la probabilidad de falla.</p></aside>
+          </div>
+        </section>
+        <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+      </main>
+    </div>
+    <footer class="foot"><span>SIMULADOR DE REMOCIONES EN MASA · v2.0</span><span>ESCENARIOS DEMOSTRATIVOS · CATASTRO REAL · NO OPERACIONAL</span><span>VISUALIZACIÓN WEBGL2 · CONECTOR ARCGIS OPCIONAL</span></footer>
+  </div>
+  <dialog id="aboutDialog"><form method="dialog"><button class="close-dialog" aria-label="Cerrar">✕</button><span class="eyebrow cyan">NOTA METODOLÓGICA</span><h2>Qué representa el simulador</h2><p>Esta entrega es un <strong>prototipo de exploración visual y documental</strong>. Su objetivo es demostrar flujo, interacción y narrativa de análisis territorial sobre una cuenca 3D, no constituye una predicción geotécnica ni una evaluación operativa de riesgo.</p><p>Utiliza un modelo de flujo superficial de profundidad promediada con una aproximación local-inercial sobre una cuadrícula. Su objetivo es la exploración conceptual de escenarios, no la evaluación de seguridad de instalaciones ni la predicción de un aluvión real.</p><p>La primera cuenca y las viviendas son <strong>sintéticas</strong>. El daño visual es un indicador orientativo; no se calcula la resistencia estructural de las casas.</p><p>Los datos geográficos oficiales (catastro y referencia de ubicaciones) son reales, pero la simulación de inundación y el riesgo asociado siguen siendo <strong>demostrativos</strong>. No sustituyen el análisis geotécnico, levantamiento topográfico, hidrología de cuenca ni validación de campo.</p><p>La versión final del proyecto, con datos reales, parámetros calibrados y validación técnica, se desarrollará en la fase de implementación completa; este prototipo no sustituye ese proceso ni representa un sistema operativo.</p><p>Para resultados científicos y decisiones de seguridad se requieren modelos adecuados al material, terreno medido, caudales, parámetros reológicos y validación contra registros de campo. Los escenarios de relaves y remociones NO sustituyen HEC-RAS, r.avaflow o un estudio geotécnico.</p><button class="primary-btn">Entendido</button></form></dialog>
+  <script type="module" src="/js/main.mjs"></script>
+<script type="module" src="/js/sirm-centro-nacional.mjs"></script>
+</body>
+</html>

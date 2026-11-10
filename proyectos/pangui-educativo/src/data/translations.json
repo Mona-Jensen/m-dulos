@@ -1,0 +1,17 @@
+{
+  "es": {
+    "welcome_title": "¡Bienvenidos al Mundo de Pangi!",
+    "instruction_text": "Presiona la huella de Pangi para escuchar el saludo",
+    "adventure_start": "Empezar Aventura"
+  },
+  "en": {
+    "welcome_title": "Welcome to Pangui's World!",
+    "instruction_text": "Press Pangui's paw to hear the greeting",
+    "adventure_start": "Start Adventure"
+  },
+  "map": {
+    "welcome_title": "Mari mari, Pangui ñi mogen!",
+    "instruction_text": "Püfochi Pangui ñi namun ñi allkütual ta chalin",
+    "adventure_start": "Amun Aventura"
+  }
+}

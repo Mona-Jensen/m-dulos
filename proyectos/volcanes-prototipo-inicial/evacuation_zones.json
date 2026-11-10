@@ -1,0 +1,17 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "volcano": "Villarrica",
+        "type": "Zona de Exclusion",
+        "danger_level": "Alto"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [[[-71.935, -39.415], [-71.925, -39.415], [-71.925, -39.425], [-71.935, -39.425], [-71.935, -39.415]]]
+      }
+    }
+  ]
+}

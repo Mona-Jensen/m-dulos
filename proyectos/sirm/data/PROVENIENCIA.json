@@ -1,0 +1,23 @@
+{
+  "asOf": "2026-10-25",
+  "description": "Archivos originales aportados en conversación, sin modificaciones. Puntos derivados en una preparación anterior a v2. El catálogo poligonal NO fue descargado en este entorno.",
+  "files": [
+    {
+      "filename": "CATASTRO_RELAVES_CHILE_OCT2025_1.xlsx",
+      "sha256": "b4efeb9f8cae4345ca1dcf78c2fb243d6ca65d3c6d76f740b23eb6001ae90762",
+      "bytes": 244642
+    },
+    {
+      "filename": "GEOQUIMICA_RELAVES_CDR_CHILE.xls",
+      "sha256": "59c88d22cd46af97a09371f49494ee7b890690337f61940a110f3623906befb5",
+      "bytes": 1808896
+    },
+    {
+      "filename": "public/data/relaves_puntos_oct2025.geojson",
+      "sha256": "7d8177509aba996d33b129c8092c55e2dd148d06c70b3e65b898675961274e34",
+      "count": 836,
+      "geometries": "Point",
+      "source": "CATASTRO_RELAVES_CHILE_OCT2025_1.xlsx"
+    }
+  ]
+}

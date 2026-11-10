@@ -1,0 +1,53 @@
+{
+  "fecha": "2026-11-10",
+  "zip_recibidos": 19,
+  "zip_distintos_por_hash": 17,
+  "archivos_descomprimidos": 451,
+  "archivos_dependencias_excluidos": 15897,
+  "duplicados_contenido": [
+    [
+      "proyecto_pangui.zip",
+      "proyecto_pangui(1).zip"
+    ]
+  ],
+  "normalizacion_codificacion": [
+    "proyectos/volcanes-prototipo-inicial/script.js",
+    "proyectos/volcanes-prototipo-inicial/index.html",
+    "proyectos/volcanes-prototipo-inicial/national_parks.json",
+    "proyectos/volcanes-prototipo-inicial/evacuation_zones.json"
+  ],
+  "pruebas": {
+    "SIRM_node": {
+      "aprobadas": 23,
+      "fallidas": 0
+    },
+    "AETHERIA_motor": {
+      "aprobadas": 19,
+      "fallidas": 0
+    },
+    "AETHERIA_plataforma": {
+      "aprobadas": 37,
+      "fallidas": 0
+    },
+    "SIRM_python": {
+      "aprobadas": 4,
+      "fallidas": 0
+    },
+    "sintaxis_python": {
+      "archivos": 22,
+      "fallidas": 0
+    },
+    "sintaxis_javascript_originales": {
+      "archivos": 44,
+      "aprobadas": 43,
+      "fallidas": 1,
+      "nota": "Un archivo UTF-16 del prototipo inicial se normalizó para publicación."
+    }
+  },
+  "no_publicados": [
+    "Código de AETHERIA | CONTINUUM",
+    "CV de tercera persona y ejemplos identificables del taller ADP",
+    "Ejecutable y archivos masivos del Atlas",
+    "Borrador jurídico pendiente de verificación"
+  ]
+}

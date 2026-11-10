@@ -2,44 +2,71 @@
 
 **Gestión institucional · Ciencia de Datos · Educación digital · Inteligencia artificial aplicada**
 
-Soy Administradora de Empresas. Mi experiencia combina gestión en educación superior, coordinación de proyectos, análisis de datos y desarrollo de propuestas educativas. Imparto charlas y acompaño a profesionales en el uso de IA generativa e IA agéntica para su trabajo.
+Soy Administradora de Empresas. Mi trabajo combina gestión de proyectos, análisis de información y desarrollo de propuestas educativas y herramientas digitales. Tengo experiencia en educación superior, coordinación de equipos y administración presupuestaria. Imparto charlas y acompaño a profesionales en la aplicación de IA generativa e IA agéntica a su trabajo.
 
-Este portafolio reúne proyectos propios y trabajos de formación. Cada ficha distingue las funciones desarrolladas, el estado de la versión y los aspectos pendientes.
+Este portafolio reúne proyectos de creación propia y trabajos de formación. En cada ficha explico qué desarrollé, qué contiene la muestra y qué falta por validar.
 
-## Ciencia de Datos y aprendizaje automático
+[LinkedIn](https://www.linkedin.com/in/gianina-jensen-guzm%C3%A1n/) · [Todos mis repositorios](https://github.com/Mona-Jensen?tab=repositories)
 
-| Proyecto | Trabajo desarrollado | Repositorio |
+## Selección de trabajos
+
+| Proyecto | Qué muestra de mi trabajo | Acceso |
 | --- | --- | --- |
-| StyleNet / Fashion-MNIST | Clasificación de prendas con redes convolucionales, TensorFlow/Keras e interfaz Streamlit. | [Ver código y documentación](https://github.com/Mona-Jensen/fashion-mnist-cnn-streamlit) |
-| Análisis de e-commerce | Calidad de datos, estadística descriptiva, visualización y regresión lineal con statsmodels. | [Ver análisis](https://github.com/Mona-Jensen/Proyecto-cuatro-EDA-Ecommerce-Jensen) |
-| Salud universitaria | Proyecto de análisis estadístico sobre hábitos y rendimiento académico. | [Ver repositorio](https://github.com/Mona-Jensen/Proyecto-Estadistica-Salud-Universitaria) |
-| Machine learning | Ejercicios y proyecto del módulo de aprendizaje automático. | [Ver repositorio](https://github.com/Mona-Jensen/proyecto-ml-modulo-6) |
+| **SIRM** | Consulta territorial, visualización 3D y validación de datos. Prototipo con 27 pruebas aprobadas en esta revisión. | [Ficha, código y pruebas](proyectos/sirm/) |
+| **StyleNet / Fashion-MNIST** | Aprendizaje profundo para clasificar imágenes de prendas con TensorFlow/Keras y una interfaz Streamlit. | [Repositorio](https://github.com/Mona-Jensen/fashion-mnist-cnn-streamlit) |
+| **Análisis de e-commerce** | Auditoría de datos, estadística descriptiva, gráficos y regresión lineal con Python. | [Análisis y entregables](https://github.com/Mona-Jensen/Proyecto-cuatro-EDA-Ecommerce-Jensen) |
+| **Aprende Seguridad Minera** | Diseño de una propuesta educativa ciudadana y sus recursos, presentada a la Dirección Nacional de SERNAGEOMIN. | [Guía y demostrador](proyectos/aprende-seguridad-minera/) |
+| **Pangui** | Narrativa ilustrada, contenidos educativos y recursos interactivos. | [Prototipo React](proyectos/pangui-educativo/) · [Versión Flask](https://github.com/Mona-Jensen/PanguiApp) |
+| **Chile Volcánico** | Exploración cartográfica de información volcánica y recursos de prevención. | [Muestra y documentación](proyectos/chile-volcanico/) |
 
-## Educación y proyectos digitales
+## Datos y aprendizaje automático
 
-| Proyecto | Propósito | Acceso |
+- [StyleNet / Fashion-MNIST](https://github.com/Mona-Jensen/fashion-mnist-cnn-streamlit): red convolucional, procesamiento de imágenes y visualización de salidas.
+- [E-commerce](https://github.com/Mona-Jensen/Proyecto-cuatro-EDA-Ecommerce-Jensen): análisis exploratorio y regresión.
+- [Salud universitaria](https://github.com/Mona-Jensen/Proyecto-Estadistica-Salud-Universitaria): proyecto de estadística inferencial sobre hábitos y rendimiento académico.
+- [Proyecto de machine learning](https://github.com/Mona-Jensen/proyecto-ml-modulo-6): trabajo del módulo de aprendizaje automático.
+- [Retail Analytics](https://github.com/Mona-Jensen/Retail_Analytics_Module9_Spark.ipynb): repositorio de formación en análisis de retail.
+
+Las métricas de los repositorios académicos no se presentan aquí como resultados nuevamente reproducidos ni como garantías de desempeño con otros datos.
+
+## Educación y capacitación
+
+| Trabajo | Muestra disponible | Estado |
 | --- | --- | --- |
-| Aprende Seguridad Minera | Propuesta educativa abierta sobre los 21 controles críticos. Presentada a SERNAGEOMIN, sin implementación institucional. | [Ficha y archivos](proyectos/aprende-seguridad-minera/) |
-| Pangui educativo | Cuento ilustrado y recursos digitales para aprendizaje infantil. Prototipo en desarrollo. | [Ficha y código React](proyectos/pangui-educativo/) |
-| Pangui World | Versión educativa desarrollada con Python y Flask. | [Repositorio existente](https://github.com/Mona-Jensen/PanguiApp) |
-| Cronos 3D | Exploración educativa de la historia geológica mediante visualización tridimensional. | [Ficha y código](proyectos/cronos-3d/) |
-| Visualizador territorial | Demostración cartográfica de perímetros y puntos de interés; no operativa para emergencias. | [Ficha y código](proyectos/visualizador-territorial/) |
-| Chile Volcánico | Proyecto de consulta y visualización de información volcánica. | [Repositorio existente](https://github.com/Mona-Jensen/Mapa_Vulcan-logico_Chile) |
+| [Aprende Seguridad Minera](proyectos/aprende-seguridad-minera/) | Guía, preguntas de comprensión y demostrador HTML. | Propuesta presentada; sin implementación institucional. |
+| [Lección 1 de seguridad minera](proyectos/aprende-seguridad-minera/preproduccion-leccion-01/) | Guion, segmentos y brief audiovisual. | Preproducción; no es un video terminado. |
+| [Pangui educativo](proyectos/pangui-educativo/) | Cuento ilustrado y aplicación React. | Prototipo; recursos e idiomas parcialmente implementados. |
+| [Cronos 3D](proyectos/cronos-3d/) | Visualización tridimensional y contenidos geológicos. | Prototipo educativo. |
+| [Taller ADP](proyectos/taller-adp/) | Ficha de diseño de un programa de preparación profesional. | Propuesta; documentos con antecedentes de terceros excluidos. |
+| [Atlas Interactivo de Chile](proyectos/atlas-interactivo-chile/) | Ficha del paquete de escritorio recibido. | Compilación Windows; sin código fuente en la muestra. |
 
-## Experiencia que aporto
+## Territorio y visualización
 
-- Gestión institucional, coordinación de equipos, presupuesto y procesos documentales.
-- Análisis de datos con Python, NumPy y pandas; formación en Ciencia de Datos finalizada en 2026 a través de SENCE.
-- Elaboración y revisión de programas educativos, contenidos y evaluaciones.
-- Capacitación sobre inteligencia artificial aplicada a tareas y proyectos profesionales.
-- Creación individual de proyectos educativos y prototipos digitales.
+| Proyecto | Contenido |
+| --- | --- |
+| [SIRM](proyectos/sirm/) | Catálogo territorial, conector ArcGIS, caché verificable y escenarios visuales sintéticos. |
+| [Minerales críticos](proyectos/minerales-criticos/) | Interfaz cartográfica y colecciones GeoJSON. |
+| [Chile Volcánico](proyectos/chile-volcanico/) | Aplicación web, capas de información y funciones de consulta externa. |
+| [Visor volcánico inicial](proyectos/volcanes-prototipo-inicial/) | Versión inicial conservada para mostrar la evolución del proyecto. |
+| [Visualizador territorial](proyectos/visualizador-territorial/) | Perímetros, puntos de interés y valores ilustrativos de telemetría. |
 
-## Estado de los proyectos
+Estas muestras no son sistemas oficiales ni herramientas operativas de emergencia. Cada ficha distingue los datos incorporados de las conexiones y funciones pendientes de validar.
 
-Los prototipos se comparten con sus limitaciones explícitas. Las métricas de modelos deben interpretarse en el contexto del conjunto de datos y su evaluación; no representan garantías de desempeño en producción. Los recursos educativos no sustituyen instrucciones oficiales de seguridad.
+## Automatización, planificación y análisis documental
 
-AETHERIA | CONTINUUM se mantiene privado y no se incluye en este repositorio público. La maqueta de consultoría se mantiene fuera de la selección pública hasta corregir sus datos ilustrativos.
+- [PC Centinela](proyectos/pc-centinela/): diagnóstico local de recursos en Windows; no borra archivos ni libera RAM.
+- [Propuesta de plataforma web 2027](proyectos/propuesta-web-2027/): ficha de planificación, navegación y trabajo por ondas.
+- [Sitio de consultoría](proyectos/aetheria-consultoria-web/): ficha de una maqueta con dashboards y mapas; código fuera de la muestra pública.
+- [Análisis normativo sobre datos e IA](proyectos/analisis-normativo-ia/): ficha de trabajo documental; borrador pendiente de revisión jurídica.
 
-## Contacto
+**AETHERIA | CONTINUUM se mantiene privado.** Su código, experimentos y resultados no están incluidos en este repositorio público.
 
-[LinkedIn](https://www.linkedin.com/in/gianina-jensen-guzm%C3%A1n/) · [Perfil GitHub](https://github.com/Mona-Jensen)
+## Cómo está organizado
+
+Cada carpeta contiene una ficha README y, cuando corresponde, código, recursos, documentación e instrucciones. Las versiones relacionadas se identifican; no se presentan como proyectos independientes sin explicar su relación. Los ZIP originales se conservan fuera de este repositorio.
+
+- [Criterios de selección y publicación](docs/CRITERIOS.md)
+- [Registro de comprobaciones](docs/VERIFICACION.json)
+- [Comprobador reproducible](scratch/verificar_portafolio.py)
+
+Los materiales de terceros conservan sus condiciones de uso. No se añade una licencia general que conceda derechos sobre recursos institucionales o dependencias ajenas.

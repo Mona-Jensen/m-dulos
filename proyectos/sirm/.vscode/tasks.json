@@ -1,0 +1,8 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    { "label": "Iniciar simulador", "type": "shell", "command": "npm run dev", "isBackground": true, "problemMatcher": [] },
+    { "label": "Validar proyecto", "type": "shell", "command": "npm run check", "problemMatcher": [] },
+    { "label": "Pruebas", "type": "shell", "command": "npm test", "problemMatcher": [] }
+  ]
+}

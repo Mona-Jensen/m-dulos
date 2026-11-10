@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centro de Monitoreo - Perímetro de Seguridad Ovalle</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    
+    <!-- Estilos de la aplicación -->
+    <link rel="stylesheet" href="css/styles.css" />
+    
+    <!-- Proj4js para conversión UTM -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.9.0/proj4.js"></script>
+    
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+</head>
+<body><aside role="note" style="position:fixed;bottom:0;left:0;right:0;z-index:2147483647;padding:10px;background:#fff3cd;color:#342900;font:14px sans-serif;text-align:center">Prototipo demostrativo. Telemetría ilustrativa, sin conexión a sensores. No utilizar para decisiones de emergencia.</aside>
+
+    <!-- Banner de Alerta Crítica Superior -->
+    <header class="alert-header">
+        <div class="alert-header-info">
+            <span class="alert-pulse-badge">Alerta Roja</span>
+            <h1>🚨 EVACUACIÓN PREVENTIVA · Perímetro de Seguridad Activo</h1>
+        </div>
+        <div class="alert-header-date">
+            <span>23 JULIO 2026</span>
+        </div>
+    </</header>
+
+    <!-- Contenedor del Mapa -->
+    <div id="map"></div>
+
+    <!-- Contenedor de la Interfaz UI -->
+    <div class="app-container">
+        
+        <!-- Botón flotante para reabrir Sidebar (oculto por defecto) -->
+        <div id="sidebar-trigger" class="sidebar-trigger-floater glass-panel interactive" onclick="toggleSidebar()">
+            📊
+        </div>
+
+        <!-- Sidebar Principal (Panel de Control) -->
+        <aside id="sidebar" class="sidebar glass-panel interactive">
+            <div class="sidebar-header">
+                <div class="sidebar-title">
+                    <span>📡</span>
+                    <span>Centro de Control</span>
+                </div>
+                <button class="sidebar-toggle-btn" onclick="toggleSidebar()" title="Colapsar panel">
+                    ◀
+                </button>
+            </div>
+            
+            <div class="sidebar-content">
+                
+                <!-- Sección 1: Información de Emergencia -->
+                <section class="sidebar-section emergency-details">
+                    <span class="section-title">⚠️ Reporte de Emergencia</span>
+                    <h3>Peligro de Aluvión / Colapso</h3>
+                    <div class="location-tag">
+                        <span>📍</span> <span>Comuna de Ovalle, Región de Coquimbo</span>
+                    </div>
+                    <div class="hazard-badge">
+                        <span>🚨</span> <span>Amenaza de Muro</span>
+                    </div>
+                    <p style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.4;">
+                        Riesgo inminente por falla de muro de contención en <strong>Depósito de Relaves Complejo Productivo Sur / Ex Delta - ENAMI</strong>.
+                    </p>
+                    <ul class="threat-list">
+                        <li>Falla geomecánica de talud</li>
+                        <li>Filtraciones activas e inestabilidad</li>
+                        <li>Vulnerable ante lluvias y sismicidad</li>
+                    </ul>
+                    <div class="authority-note">
+                        <span>Organismos:</span>
+                        <strong>SENAPRED · SERNAGEOMIN</strong>
+                    </div>
+                </section>
+                
+                <!-- Sección 2: Capas de Visualización del Mapa -->
+                <section class="sidebar-section">
+                    <span class="section-title">🗺️ Capas de Visualización</span>
+                    <div class="layer-toggle">
+                        
+                        <label class="layer-option">
+                            <div class="layer-label-wrapper">
+                                <div class="color-indicator red"></div>
+                                <span>Perímetro de Seguridad (Oficial)</span>
+                            </div>
+                            <div class="switch">
+                                <input type="checkbox" class="layer-switch" data-layer="perimetro" name="Perímetro de Seguridad" checked>
+                                <span class="slider"></span>
+                            </div>
+                        </label>
+                        
+                        <label class="layer-option">
+                            <div class="layer-label-wrapper">
+                                <div class="color-indicator orange"></div>
+                                <span>Zona de Riesgo (500m)</span>
+                            </div>
+                            <div class="switch">
+                                <input type="checkbox" class="layer-switch" data-layer="riesgo" name="Zona de Riesgo" checked>
+                                <span class="slider"></span>
+                            </div>
+                        </label>
+                        
+                        <label class="layer-option">
+                            <div class="layer-label-wrapper">
+                                <div class="color-indicator green"></div>
+                                <span>Vías de Evacuación</span>
+                            </div>
+                            <div class="switch">
+                                <input type="checkbox" class="layer-switch" data-layer="evacuacion" name="Vías de Evacuación" checked>
+                                <span class="slider"></span>
+                            </div>
+                        </label>
+                        
+                        <label class="layer-option">
+                            <div class="layer-label-wrapper">
+                                <div class="color-indicator red" style="box-shadow: 0 0 8px #ef4444;"></div>
+                                <span>Puntos Críticos de Falla</span>
+                            </div>
+                            <div class="switch">
+                                <input type="checkbox" class="layer-switch" data-layer="criticos" name="Puntos Críticos" checked>
+                                <span class="slider"></span>
+                            </div>
+                        </label>
+                        
+                        <label class="layer-option">
+                            <div class="layer-label-wrapper">
+                                <div class="color-indicator blue"></div>
+                                <span>Referencias Viales</span>
+                            </div>
+                            <div class="switch">
+                                <input type="checkbox" class="layer-switch" data-layer="referencias" name="Referencias Viales" checked>
+                                <span class="slider"></span>
+                            </div>
+                        </label>
+                        
+                    </div>
+                </section>
+                
+                <!-- Sección 3: Telemetría Técnica de Sensores -->
+                <section class="sidebar-section">
+                    <span class="section-title">📊 Telemetría de Instrumentación</span>
+                    <div class="telemetry-widget">
+                        <div class="telemetry-card">
+                            <span class="telemetry-label">Sismicidad Local</span>
+                            <span class="telemetry-val" style="color: var(--color-safe);">0.2 M<sub>L</sub></span>
+                        </div>
+                        <div class="telemetry-card">
+                            <span class="telemetry-label">Deformación Muro</span>
+                            <span class="telemetry-val" style="color: var(--color-safe);">1.2 mm/año</span>
+                        </div>
+                        <div class="telemetry-card">
+                            <span class="telemetry-label">Nivel de Agua</span>
+                            <span class="telemetry-val" style="color: var(--color-warning);">Nivel Crítico</span>
+                        </div>
+                        <div class="telemetry-card">
+                            <span class="telemetry-label">Estabilidad Talud</span>
+                            <span class="telemetry-val" style="color: var(--color-warning);">FOS 1.05</span>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sección 4: Puntos Críticos y Enfoque Directo -->
+                <section class="sidebar-section">
+                    <span class="section-title">⚠️ Puntos de Falla Críticos</span>
+                    <div class="critical-points-list">
+                        
+                        <div class="critical-point-item" onclick="flyToPoint(0)">
+                            <div class="critical-point-info">
+                                <span class="critical-point-name">Punto Crítico 1</span>
+                                <span class="critical-point-desc">Agrietamiento estructural del muro</span>
+                            </div>
+                            <button class="fly-btn">Enfoque</button>
+                        </div>
+                        
+                        <div class="critical-point-item" onclick="flyToPoint(1)">
+                            <div class="critical-point-info">
+                                <span class="critical-point-name">Punto Crítico 2</span>
+                                <span class="critical-point-desc">Erosión por escurrimientos hídricos</span>
+                            </div>
+                            <button class="fly-btn">Enfoque</button>
+                        </div>
+                        
+                        <div class="critical-point-item" onclick="flyToPoint(2)">
+                            <div class="critical-point-info">
+                                <span class="critical-point-name">Punto Crítico 3</span>
+                                <span class="critical-point-desc">Desborde activo detectado</span>
+                            </div>
+                            <button class="fly-btn">Enfoque</button>
+                        </div>
+                        
+                    </div>
+                </section>
+                
+            </div>
+        </aside>
+
+        <!-- HUD de Coordenadas Flotante -->
+        <div id="coords-hud" class="coords-hud glass-panel interactive">
+            <span>📡 UTM Zone 19S</span>
+            <span class="coord-divider">|</span>
+            <span>LAT: <span id="lat-val" style="color: var(--color-info); font-weight: bold;">-30.598300</span></span>
+            <span class="coord-divider">|</span>
+            <span>LNG: <span id="lng-val" style="color: var(--color-info); font-weight: bold;">-71.200300</span></span>
+        </div>
+
+        <!-- Controles de Navegación del Mapa -->
+        <div class="map-controls interactive">
+            <button class="control-btn primary" onclick="zoomToPerimeter()">
+                🔍 Ajustar Perímetro
+            </button>
+            <button class="control-btn" onclick="resetView()">
+                🏠 Vista General
+            </button>
+            <button id="satellite-btn" class="control-btn" onclick="toggleSatellite()">
+                🛰️ Satélite
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Script de lógica del mapa -->
+    <script src="js/map.js"></script>
+</body>
+</html>

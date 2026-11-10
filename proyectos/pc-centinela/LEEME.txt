@@ -1,0 +1,52 @@
+PC CENTINELA v1 - WINDOWS / POWERSHELL 5.1
+
+PROPOSITO
+Automatiza diagnosticos, no limpieza. No elimina, mueve, trunca ni
+sobrescribe archivos existentes; no vacia caches, no termina procesos,
+no reinicia, no modifica registro ni configuraciones de Windows.
+Solo crea informes nuevos y, al instalarlo, una tarea programada.
+No transmite datos. Los informes contienen nombres de procesos y metricas.
+
+INSTALACION
+1. Extraiga el ZIP en una carpeta permanente, por ejemplo
+   C:\Users\SU_USUARIO\Documents\PC_Centinela
+2. Abra PowerShell normal (no necesita administrador) en esa carpeta.
+3. Prueba manual:
+   .\Centinela.ps1 -Modo Medir
+4. Si funciona, active la programacion:
+   .\Centinela.ps1 -Modo Instalar
+5. Compruebe:
+   .\Centinela.ps1 -Modo Estado
+
+Se ejecuta diariamente a las 10:00 (hora local de Windows), con la sesion
+del usuario iniciada. StartWhenAvailable permite recuperar una ejecucion
+omitida segun el Programador de tareas. No ejecuta mediciones continuas.
+No mueva el archivo despues de instalar. Si la politica de PowerShell
+bloquea el script, no cambie la politica global: comunique el error exacto.
+
+INFORMES
+Pegue en la barra del Explorador: %LOCALAPPDATA%\PC-Centinela-v1
+Cada informe es JSON y puede abrirlo con el Bloc de notas.
+Se detiene al alcanzar 1000 informes, sin borrar ninguno.
+Las muestras de CPU duran aproximadamente 8 segundos mas consultas.
+La RAM se toma al principio. Es una muestra puntual, no prueba de fallos.
+Un porcentaje elevado no demuestra por si solo la causa de la lentitud.
+
+PAUSAR SIN BORRAR ARCHIVOS
+   .\Centinela.ps1 -Modo Pausar
+O deshabilite PC-Centinela-SinBorrado-v1 en el Programador de tareas.
+Para reactivarla use Habilitar en el Programador de tareas.
+
+ACEPTACION EN SU PC
+- Medir crea un informe nuevo y muestra su ubicacion.
+- Instalar registra una unica tarea del usuario sin privilegios elevados.
+- Estado muestra la tarea y la siguiente ejecucion.
+- Tras ejecutarla desde el Programador de tareas, LastTaskResult es 0.
+- Pausar deja la tarea deshabilitada y conserva todos los informes.
+
+VALIDACION Y LIMITES
+Revision estatica y verificacion de integridad ZIP realizadas al preparar
+el paquete. No se ejecuto PowerShell ni PSScriptAnalyzer en el entorno de
+creacion: la validacion funcional en Windows queda pendiente.
+No hay mejora de velocidad demostrada: este proceso diagnostica.
+No incluye borrado ni ajustes automaticos de programas.

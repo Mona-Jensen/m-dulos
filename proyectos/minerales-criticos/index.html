@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Prototipo de minerales críticos de Chile</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    
+    <!-- MapLibre GL -->
+    <link href="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.css" rel="stylesheet">
+    <script src="https://unpkg.com/maplibre-gl@4.7.0/dist/maplibre-gl.js"></script>
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f2f5;
+            overflow-x: hidden;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1d3557 0%, #0f2c3d 100%);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            border-bottom: 3px solid #e63946;
+        }
+        
+        .logo h1 {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        
+        .logo h1 span { color: #e63946; }
+        .logo p { font-size: 0.7rem; opacity: 0.8; }
+        
+        .stats-header {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .stat-header {
+            text-align: center;
+        }
+        
+        .stat-header .value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #e63946;
+        }
+        
+        .stat-header .label {
+            font-size: 0.7rem;
+            opacity: 0.8;
+        }
+        
+        /* Layout principal */
+        .dashboard {
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            gap: 24px;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+        
+        /* Fila de filtros */
+        .filters-bar {
+            background: white;
+            border-radius: 16px;
+            padding: 20px 24px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: flex-end;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .filter-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .filter-group label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #1d3557;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        
+        .filter-group select, .filter-group input {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            background: white;
+        }
+        
+        .filter-group select:focus, .filter-group input:focus {
+            outline: none;
+            border-color: #e63946;
+        }
+        
+        .btn-primary {
+            background: #e63946;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary:hover {
+            background: #c1121f;
+            transform: translateY(-1px);
+        }
+        
+        .btn-secondary {
+            background: #1d3557;
+            color: white;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Grid de contenido */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+        }
+        
+        /* Tarjetas */
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        
+        .card-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1d3557;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e63946;
+            display: inline-block;
+        }
+        
+        /* Tablas */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .data-table th {
+            text-align: left;
+            padding: 12px 8px;
+            background: #f8fafc;
+            color: #1d3557;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+        
+        .data-table td {
+            padding: 10px 8px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+        }
+        
+        .data-table td:last-child {
+            text-align: right;
+            font-weight: 700;
+            color: #e63946;
+        }
+        
+        .data-table tr:hover td {
+            background: #fef2f2;
+        }
+        
+        /* Grid de mini tarjetas */
+        .mini-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        
+        .mini-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        
+        .mini-card:hover {
+            background: #fef2f2;
+            transform: translateY(-2px);
+        }
+        
+        .mini-card .value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #e63946;
+        }
+        
+        .mini-card .label {
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-top: 4px;
+        }
+        
+        /* Gráficos */
+        .chart-container {
+            height: 220px;
+            position: relative;
+        }
+        
+        /* Lista de minerales asociados */
+        .mineral-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .mineral-item {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+        
+        .mineral-item:hover {
+            background: #fef2f2;
+            transform: translateX(4px);
+        }
+        
+        .mineral-name {
+            font-weight: 600;
+            color: #1d3557;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .mineral-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .mineral-value {
+            font-weight: 800;
+            color: #e63946;
+        }
+        
+        /* Mapa */
+        .map-container {
+            grid-column: span 2;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            height: 450px;
+        }
+        
+        #map {
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Tabla de depósitos */
+        .table-wrapper {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 24px;
+            color: #94a3b8;
+            font-size: 0.7rem;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 24px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            .map-container {
+                grid-column: span 1;
+            }
+            .dashboard {
+                padding: 16px;
+            }
+            .header {
+                padding: 16px;
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body><aside role="note" style="position:fixed;bottom:0;left:0;right:0;z-index:2147483647;padding:10px;background:#fff3cd;color:#342900;font:14px sans-serif;text-align:center">Prototipo independiente de portafolio. La procedencia y vigencia de los datos requieren validación; no es un servicio oficial.</aside>
+    <!-- Header con colores de Chile -->
+    <div class="header">
+        <div class="logo">
+            <h1>🇨🇱 <span>Minerales Críticos</span></h1>
+            <p>Gobierno de Chile · SERNAGEOMIN</p>
+        </div>
+        <div class="stats-header">
+            <div class="stat-header">
+                <div class="value" id="totalDepositosHeader">267</div>
+                <div class="label">Depósitos</div>
+            </div>
+            <div class="stat-header">
+                <div class="value" id="totalRecursosHeader">0</div>
+                <div class="label">Recursos (Mt)</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="dashboard">
+        <!-- Barra de filtros y consultas -->
+        <div class="filters-bar">
+            <div class="filter-group">
+                <label>🔍 Buscar por nombre</label>
+                <input type="text" id="searchInput" placeholder="Ej: Chuquicamata, El Teniente...">
+            </div>
+            <div class="filter-group">
+                <label>📊 Mineral crítico</label>
+                <select id="filterMineral">
+                    <option value="todos">Todos</option>
+                    <option value="Cobre">Cobre</option>
+                    <option value="Litio">Litio</option>
+                    <option value="Nitrato">Nitrato</option>
+                    <option value="Oro">Oro</option>
+                    <option value="Plata">Plata</option>
+                    <option value="Hierro">Hierro</option>
+                    <option value="Molibdeno">Molibdeno</option>
+                    <option value="Potasio">Potasio</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>📍 Región</label>
+                <select id="filterRegion">
+                    <option value="todos">Todas</option>
+                    <option value="Antofagasta">Antofagasta</option>
+                    <option value="Atacama">Atacama</option>
+                    <option value="Coquimbo">Coquimbo</option>
+                    <option value="Tarapacá">Tarapacá</option>
+                    <option value="Valparaíso">Valparaíso</option>
+                    <option value="Metropolitana">Metropolitana</option>
+                </select>
+            </div>
+            <button class="btn-primary" id="applyFilters">🔄 Aplicar filtros</button>
+            <button class="btn-secondary" id="resetFilters">✕ Resetear</button>
+        </div>
+        
+        <!-- Grid de contenido -->
+        <div class="content-grid">
+            <!-- Tabla de tonelaje por mineral -->
+            <div class="card">
+                <div class="card-title">📊 Recursos por mineral (millones de toneladas)</div>
+                <table class="data-table" id="tonnageTable">
+                    <thead><tr><th>Mineral</th><th>Toneladas</th></tr></thead>
+                    <tbody id="tonnageBody"></tbody>
+                </table>
+            </div>
+            
+            <!-- Depósitos por región -->
+            <div class="card">
+                <div class="card-title">📍 Depósitos por región</div>
+                <div id="regionStats"></div>
+            </div>
+            
+            <!-- Modelos geológicos + Minerales asociados -->
+            <div class="card">
+                <div class="card-title">🪨 Modelos geológicos</div>
+                <div class="mini-grid" id="modelosGrid"></div>
+            </div>
+            
+            <div class="card">
+                <div class="card-title">💎 Depósitos por mineral crítico</div>
+                <div class="mineral-list" id="mineralesList"></div>
+            </div>
+            
+            <!-- Franjas metalogénicas -->
+            <div class="card">
+                <div class="card-title">🗺️ Franjas metalogénicas</div>
+                <div class="mineral-list" id="franjasList"></div>
+            </div>
+            
+            <!-- Gráfico -->
+            <div class="card">
+                <div class="card-title">📈 Distribución por modelo geológico</div>
+                <div class="chart-container">
+                    <canvas id="modelChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mapa 3D -->
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+        
+        <!-- Tabla de depósitos -->
+        <div class="card">
+            <div class="card-title">📋 Listado de depósitos</div>
+            <div class="table-wrapper">
+                <table class="data-table" id="depositosTable">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Mineral principal</th>
+                            <th>Región</th>
+                            <th>Recursos (Mt)</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="depositosBody"></tbody>
+                <tr>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🗺️ Fuente: SERNAGEOMIN · Servicio Nacional de Geología y Minería de Chile</p>
+            <p>🎨 Colores representativos de Chile: Rojo · Blanco · Azul Marino</p>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // DATOS COMPLETOS DE SERNAGEOMIN
+        // ============================================
+        
+        // Datos de tonelaje por mineral (de la captura)
+        const tonelajeData = [
+            { mineral: "Hierro", toneladas: 2947805140 },
+            { mineral: "Cobre", toneladas: 900047201 },
+            { mineral: "Potasio", toneladas: 116733130 },
+            { mineral: "Nitrato", toneladas: 104613515 },
+            { mineral: "Litio", toneladas: 14191267 },
+            { mineral: "Molibdeno", toneladas: 8489259 },
+            { mineral: "Boro", toneladas: 5451403 },
+            { mineral: "Titanio", toneladas: 2868770 },
+            { mineral: "Manganeso", toneladas: 1890720 },
+            { mineral: "Cinc", toneladas: 1151464 },
+            { mineral: "Yodo", toneladas: 1046870 },
+            { mineral: "Cobalto", toneladas: 132195 }
+        ];
+        
+        // Datos de depósitos por región
+        const regionesData = [
+            { region: "Antofagasta", depositos: 64, recursos: 45000 },
+            { region: "Atacama", depositos: 21, recursos: 28000 },
+            { region: "Coquimbo", depositos: 29, recursos: 18000 },
+            { region: "Tarapacá", depositos: 9, recursos: 12000 },
+            { region: "Valparaíso", depositos: 8, recursos: 25000 },
+            { region: "Metropolitana", depositos: 4, recursos: 5000 },
+            { region: "O'Higgins", depositos: 3, recursos: 16000 },
+            { region: "Otras", depositos: 8, recursos: 3000 }
+        ];
+        
+        // Datos de modelos geológicos
+        const modelosData = [
+            { nombre: "Pórfidos", cantidad: 83 },
+            { nombre: "Epitermales", cantidad: 39 },
+            { nombre: "Estratoligado", cantidad: 31 },
+            { nombre: "IOCG", cantidad: 29 }
+        ];
+        
+        // Datos de minerales asociados
+        const mineralesAsociados = [
+            { nombre: "Cobre", depositos: 150, color: "#b87333" },
+            { nombre: "Oro", depositos: 92, color: "#f1c40f" },
+            { nombre: "Plata", depositos: 52, color: "#ecf0f1" },
+            { nombre: "Molibdeno", depositos: 40, color: "#54B5B5" },
+            { nombre: "Renio", depositos: 33, color: "#34495e" },
+            { nombre: "Cobalto", depositos: 44, color: "#e74c3c" }
+        ];
+        
+        // Datos de franjas metalogénicas
+        const franjasData = [
+            { nombre: "Eoceno-Oligoceno", depositos: 23 },
+            { nombre: "Cretácico Inferior", depositos: 19 },
+            { nombre: "Paleoceno-Eoceno", depositos: 17 },
+            { nombre: "Mioceno-Plioceno", depositos: 15 },
+            { nombre: "Jurásico", depositos: 12 },
+            { nombre: "Mioceno", depositos: 16 }
+        ];
+        
+        // Depósitos individuales (lista representativa)
+        const depositosLista = [
+            { nombre: "Chuquicamata", mineral: "Cobre", region: "Antofagasta", recursos: 14352, estado: "En producción", lat: -22.3, lng: -68.895 },
+            { nombre: "El Teniente", mineral: "Cobre", region: "O'Higgins", recursos: 16224, estado: "En producción", lat: -34.092, lng: -70.338 },
+            { nombre: "Escondida", mineral: "Cobre", region: "Antofagasta", recursos: 18313, estado: "En producción", lat: -24.275, lng: -69.058 },
+            { nombre: "Collahuasi", mineral: "Cobre", region: "Tarapacá", recursos: 6659, estado: "En producción", lat: -20.973, lng: -68.703 },
+            { nombre: "Los Pelambres", mineral: "Cobre", region: "Coquimbo", recursos: 6066, estado: "En producción", lat: -31.715, lng: -70.499 },
+            { nombre: "Andina", mineral: "Cobre", region: "Valparaíso", recursos: 21996, estado: "En producción", lat: -33.149, lng: -70.254 },
+            { nombre: "Radomiro Tomic", mineral: "Cobre", region: "Antofagasta", recursos: 8115, estado: "En producción", lat: -22.227, lng: -68.883 },
+            { nombre: "Salvador", mineral: "Cobre", region: "Atacama", recursos: 3768, estado: "En producción", lat: -26.241, lng: -69.57 },
+            { nombre: "Centinela", mineral: "Cobre", region: "Antofagasta", recursos: 5185, estado: "En producción", lat: -22.988, lng: -69.076 },
+            { nombre: "María Elena", mineral: "Nitrato", region: "Antofagasta", recursos: 390, estado: "En producción", lat: -22.379, lng: -69.746 },
+            { nombre: "Cerro Negro Norte", mineral: "Hierro", region: "Atacama", recursos: 637, estado: "En producción", lat: -27.108, lng: -70.343 },
+            { nombre: "Candelaria", mineral: "Cobre", region: "Atacama", recursos: 1563, estado: "En producción", lat: -27.517, lng: -70.291 },
+            { nombre: "Mantoverde", mineral: "Cobre", region: "Atacama", recursos: 1686, estado: "En producción", lat: -26.559, lng: -70.315 },
+            { nombre: "El Soldado", mineral: "Cobre", region: "Valparaíso", recursos: 215, estado: "En producción", lat: -32.612, lng: -71.128 },
+            { nombre: "Alhué", mineral: "Oro", region: "Metropolitana", recursos: 11.4, estado: "En producción", lat: -34.008, lng: -70.978 }
+        ];
+        
+        // Inicializar mapa 3D
+        const map = new maplibregl.Map({
+            container: 'map',
+            style: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+            center: [-70.5, -30],
+            zoom: 5.5,
+            pitch: 45,
+            bearing: -10
+        });
+        
+        map.addControl(new maplibregl.NavigationControl(), 'top-right');
+        
+        // Activar terreno 3D
+        map.on('load', () => {
+            map.addSource('mapbox-dem', {
+                'type': 'raster-dem',
+                'url': 'https://demotiles.maplibre.org/terrain-tiles/tiles.json',
+                'tileSize': 256
+            });
+            map.setTerrain({ 'source': 'mapbox-dem', 'exaggeration': 1.2 });
+            cargarMarcadores();
+        });
+        
+        function getColor(mineral) {
+            const colores = {
+                "Cobre": "#b87333",
+                "Litio": "#e63946",
+                "Oro": "#f1c40f",
+                "Plata": "#ecf0f1",
+                "Nitrato": "#2980b9",
+                "Hierro": "#10b981",
+                "Potasio": "#8e44ad",
+                "Molibdeno": "#54B5B5"
+            };
+            return colores[mineral] || "#95a5a6";
+        }
+        
+        function cargarMarcadores() {
+            depositosLista.forEach(d => {
+                const color = getColor(d.mineral);
+                const size = Math.min(18, Math.max(8, Math.sqrt(d.recursos) / 12));
+                
+                const el = document.createElement('div');
+                el.style.width = `${size}px`;
+                el.style.height = `${size}px`;
+                el.style.backgroundColor = color;
+                el.style.borderRadius = '50%';
+                el.style.border = '2px solid white';
+                el.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+                el.style.cursor = 'pointer';
+                
+                new maplibregl.Marker({ element: el })
+                    .setLngLat([d.lng, d.lat])
+                    .setPopup(new maplibregl.Popup().setHTML(`<b>${d.nombre}</b><br>${d.mineral}<br>${d.recursos.toLocaleString()} Mt`))
+                    .addTo(map);
+            });
+        }
+        
+        // Renderizar tabla de tonelaje
+        function renderTonnage() {
+            const tbody = document.getElementById('tonnageBody');
+            tbody.innerHTML = tonelajeData.map(t => `
+                <tr><td>${t.mineral}</td><td>${t.toneladas.toLocaleString()}</td></tr>
+            `).join('');
+        }
+        
+        // Renderizar regiones
+        function renderRegiones() {
+            const container = document.getElementById('regionStats');
+            container.innerHTML = regionesData.map(r => `
+                <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #e2e8f0;">
+                    <span style="font-weight: 500;">${r.region}</span>
+                    <span style="font-weight: 800; color: #e63946;">${r.depositos} depósitos</span>
+                </div>
+            `).join('');
+        }
+        
+        // Renderizar modelos
+        function renderModelos() {
+            const container = document.getElementById('modelosGrid');
+            container.innerHTML = modelosData.map(m => `
+                <div class="mini-card">
+                    <div class="value">${m.cantidad}</div>
+                    <div class="label">${m.nombre}</div>
+                </div>
+            `).join('');
+        }
+        
+        // Renderizar minerales asociados
+        function renderMineralesAsociados() {
+            const container = document.getElementById('mineralesList');
+            container.innerHTML = mineralesAsociados.map(m => `
+                <div class="mineral-item">
+                    <span class="mineral-name">
+                        <span class="mineral-dot" style="background: ${m.color}; border: 1px solid #ccc;"></span>
+                        ${m.nombre}
+                    </span>
+                    <span class="mineral-value">${m.depositos} depósitos</span>
+                </div>
+            `).join('');
+        }
+        
+        // Renderizar franjas
+        function renderFranjas() {
+            const container = document.getElementById('franjasList');
+            container.innerHTML = franjasData.map(f => `
+                <div class="mineral-item">
+                    <span class="mineral-name">${f.nombre}</span>
+                    <span class="mineral-value">${f.depositos} depósitos</span>
+                </div>
+            `).join('');
+        }
+        
+        // Renderizar tabla de depósitos
+        let currentDepositos = [...depositosLista];
+        
+        function renderDepositos() {
+            const tbody = document.getElementById('depositosBody');
+            tbody.innerHTML = currentDepositos.map(d => `
+                <tr onclick="volarADeposito(${d.lat}, ${d.lng})" style="cursor: pointer;">
+                    <td><strong>${d.nombre}</strong></td>
+                    <td><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${getColor(d.mineral)}; margin-right:6px;"></span>${d.mineral}</td>
+                    <td>${d.region}</td>
+                    <td>${d.recursos.toLocaleString()}</td>
+                    <td><span style="background:#e6394620; padding:2px 8px; border-radius:20px; font-size:0.7rem;">${d.estado}</span></td>
+                </tr>
+            `).join('');
+        }
+        
+        // Gráfico de modelos
+        let modelChart;
+        function renderModelChart() {
+            const ctx = document.getElementById('modelChart').getContext('2d');
+            if (modelChart) modelChart.destroy();
+            modelChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: modelosData.map(m => m.nombre),
+                    datasets: [{ data: modelosData.map(m => m.cantidad), backgroundColor: ['#e63946', '#1d3557', '#2980b9', '#10b981'], borderWidth: 0 }]
+                },
+                options: { responsive: true, maintainAspectRatio: true, plugins: { legend: { position: 'bottom', labels: { font: { size: 10 } } } } }
+            });
+        }
+        
+        // Actualizar KPIs
+        function updateKPIs() {
+            const totalRecursos = depositosLista.reduce((sum, d) => sum + d.recursos, 0);
+            document.getElementById('totalRecursosHeader').textContent = Math.round(totalRecursos).toLocaleString();
+        }
+        
+        // Filtros
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const mineralFilter = document.getElementById('filterMineral').value;
+            const regionFilter = document.getElementById('filterRegion').value;
+            
+            currentDepositos = depositosLista.filter(d => {
+                if (searchTerm && !d.nombre.toLowerCase().includes(searchTerm)) return false;
+                if (mineralFilter !== 'todos' && d.mineral !== mineralFilter) return false;
+                if (regionFilter !== 'todos' && d.region !== regionFilter) return false;
+                return true;
+            });
+            
+            renderDepositos();
+            document.getElementById('totalDepositosHeader').textContent = currentDepositos.length;
+        }
+        
+        function resetFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterMineral').value = 'todos';
+            document.getElementById('filterRegion').value = 'todos';
+            currentDepositos = [...depositosLista];
+            renderDepositos();
+            document.getElementById('totalDepositosHeader').textContent = currentDepositos.length;
+        }
+        
+        window.volarADeposito = function(lat, lng) {
+            map.flyTo({ center: [lng, lat], zoom: 12, pitch: 60, duration: 1500 });
+        };
+        
+        // Inicializar todo
+        renderTonnage();
+        renderRegiones();
+        renderModelos();
+        renderMineralesAsociados();
+        renderFranjas();
+        renderDepositos();
+        renderModelChart();
+        updateKPIs();
+        
+        document.getElementById('applyFilters').addEventListener('click', applyFilters);
+        document.getElementById('resetFilters').addEventListener('click', resetFilters);
+        
+        console.log('✅ Plataforma cargada correctamente');
+    </script>
+</body>
+</html>

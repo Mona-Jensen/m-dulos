@@ -1,0 +1,32 @@
+[
+  {
+    "id": "villarrica",
+    "name": "Villarrica",
+    "coordinates": [-39.42, -71.93],
+    "elevation": 2847,
+    "status": "Amarilla",
+    "risk_rank": 1,
+    "region": "Araucania",
+    "description": "El volcan mas riesgoso de Chile"
+  },
+  {
+    "id": "llaima",
+    "name": "Llaima",
+    "coordinates": [-38.69, -71.72],
+    "elevation": 3125,
+    "status": "Verde",
+    "risk_rank": 2,
+    "region": "Araucania",
+    "description": "Uno de los volcanes mas activos"
+  },
+  {
+    "id": "calbuco",
+    "name": "Calbuco",
+    "coordinates": [-41.33, -72.61],
+    "elevation": 2003,
+    "status": "Verde",
+    "risk_rank": 3,
+    "region": "Los Lagos",
+    "description": "Erupcion explosiva en 2015"
+  }
+]

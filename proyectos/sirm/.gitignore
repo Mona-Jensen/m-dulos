@@ -1,0 +1,13 @@
+# Datasets, generated results and diagnostics
+/data/raw/
+/data/processed/
+/outputs/
+/scratch/tmp/
+/scratch/reports/
+/node_modules/
+.env
+.env.*
+!.env.example
+.DS_Store
+__pycache__/
+*.pyc
