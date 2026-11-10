@@ -4,7 +4,7 @@ Inventario de los 19 ZIP recibidos durante la preparación del portafolio. Se ag
 
 | Paquete recibido | Trabajo | Integración | Ficha |
 | --- | --- | --- | --- |
-| AetheriaContinuum.zip / AetheriaContinuum(1).zip | AETHERIA | CONTINUUM | Ficha pública; desarrollo reservado. | [Consultar](../proyectos/aetheria-continuum/) |
+| AetheriaContinuum.zip / AetheriaContinuum(1).zip | AETHERIA &#124; CONTINUUM | Ficha pública; desarrollo reservado. | [Consultar](../proyectos/aetheria-continuum/) |
 | VALE.zip / VALE(1).zip | Aprende Seguridad Minera | Una sola muestra: dos ZIP idénticos. Guía y demostrador públicos. | [Consultar](../proyectos/aprende-seguridad-minera/) |
 | proyecto_pangui.zip / proyecto_pangui(1).zip | Visualizador territorial | Una sola versión del mismo contenido cartográfico. | [Consultar](../proyectos/visualizador-territorial/) |
 | pangui-bilingual-pro.zip | Pangui educativo | Fuente React y recursos seleccionados. | [Consultar](../proyectos/pangui-educativo/) |
