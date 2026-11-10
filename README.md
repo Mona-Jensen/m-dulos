@@ -32,7 +32,7 @@ Las métricas académicas deben leerse con su protocolo de evaluación. No se pr
 
 | Proyecto | Muestra disponible | Estado |
 | --- | --- | --- |
-| **Aprende Seguridad Minera** | [Guía ciudadana y demostrador](proyectos/aprende-seguridad-minera/). | Propuesta presentada a SERNAGEOMIN, sin implementación institucional. |
+| **Aprende Seguridad Minera** | [Guía ciudadana y demostrador](proyectos/aprende-seguridad-minera/). | Propuesta presentada , sin implementación institucional. |
 | **Lección 1 de seguridad minera** | [Guion y brief de producción](proyectos/aprende-seguridad-minera/preproduccion-leccion-01/). | Preproducción; no es un video final. |
 | **Pangui educativo** | [Aplicación React y cuento ilustrado](proyectos/pangui-educativo/) · [Versión Flask](https://github.com/Mona-Jensen/PanguiApp). | Prototipos con alcances diferentes. |
 | **Cronos 3D** | [Código de visualización educativa](proyectos/cronos-3d/). | Prototipo sobre historia geológica. |
@@ -58,7 +58,7 @@ Los visores son muestras de desarrollo. No son servicios oficiales ni sistemas o
 | **PC Centinela** | Diagnóstico de recursos en Windows, sin borrado de archivos ni liberación de RAM. | [Script y documentación](proyectos/pc-centinela/) |
 | **Propuesta web 2027** | Arquitectura de información y planificación por ondas. | [Ficha y resumen técnico](proyectos/propuesta-web-2027/) |
 | **Sitio de consultoría** | Diseño de una maqueta con dashboards y mapas. | [Ficha pública](proyectos/aetheria-consultoria-web/) |
-| **Análisis normativo sobre datos e IA** | Trabajo documental pendiente de revisión especializada. | [Ficha pública](proyectos/analisis-normativo-ia/) |
+| **Análisis normativo sobre datos e IA** | Trabajo documental. | [Ficha pública](proyectos/analisis-normativo-ia/) |
 
 ## Cómo revisar este portafolio
 
